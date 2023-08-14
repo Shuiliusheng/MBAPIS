@@ -37,6 +37,7 @@
 #include "sim/syscall_debug_macros.hh"
 #include "sim/system.hh"
 #include "sim/vma.hh"
+#include "sim/ckpt_collect.hh"
 
 namespace gem5
 {
@@ -161,6 +162,8 @@ MemState::updateBrkRegion(Addr old_brk, Addr new_brk)
     }
 
     _brkPoint = new_brk;
+    ckptsettings.brk_point = _brkPoint;
+    //RISCV_Ckpt_Support: update the running brkpoint place
 }
 
 void
@@ -471,8 +474,11 @@ MemState::extendMmap(Addr length)
             _mmapEnd,
             _ownerProcess->mmapGrowsDown() ? start : start + length);
 
-    _mmapEnd = _ownerProcess->mmapGrowsDown() ? start : start + length;
+    printf("memstate: extending mmap region (old %p) (new %p)\n", _mmapEnd, _ownerProcess->mmapGrowsDown() ? start : start + length);
 
+    _mmapEnd = _ownerProcess->mmapGrowsDown() ? start : start + length;
+    ckptsettings.mmapend = _mmapEnd;
+    //RISCV_Ckpt_Support: update the running mmapend place
     return start;
 }
 

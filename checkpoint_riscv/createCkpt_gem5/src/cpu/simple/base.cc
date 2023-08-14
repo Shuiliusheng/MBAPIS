@@ -77,6 +77,9 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+#include "debug/ShowAssembly.hh"
+#include "debug/ShowCMOVAssembly.hh"
+
 namespace gem5
 {
 
@@ -449,7 +452,22 @@ BaseSimpleCPU::postExecute()
     if (curStaticInst->isStore() || curStaticInst->isAtomic()){
         t_info.execContextStats.numStoreInsts++;
     }
+    // const std::string inst_str = curStaticInst->disassemble(instAddr);
+    // if(!inst_str.empty())
+    //     cprintf("inst pc: 0x%x, %s\n", instAddr, inst_str.c_str());
     /* End power model statistics */
+    if (!curStaticInst->isMicroop() || curStaticInst->isFirstMicroop()) {
+        const std::string inst_str = curStaticInst->disassemble(instAddr);
+
+        if( (inst_str.find("CMOV") != std::string::npos) || (inst_str.find("cmov") != std::string::npos )) {
+            t_info.execContextStats.numCmovInsts++;
+            DPRINTF(ShowCMOVAssembly, "pc: 0x%x, %s\n", instAddr, inst_str.c_str());
+        }
+
+        DPRINTF(ShowAssembly, "pc: 0x%x, %s\n", instAddr, inst_str.c_str());
+    }
+    // const std::string inst_str = curStaticInst->getName();
+    // cprintf("inst pc: 0x%x, %s\n", instAddr, inst_str.c_str());
 
     t_info.execContextStats.statExecutedInstType[curStaticInst->opClass()]++;
 

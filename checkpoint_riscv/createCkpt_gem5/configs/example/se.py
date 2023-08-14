@@ -105,6 +105,15 @@ def get_processes(args):
         if len(errouts) > idx:
             process.errout = errouts[idx]
 
+        print(sys.argv)
+        if '--stackbase' in str(sys.argv):
+            process.stackbase = args.stackbase
+        if '--mmapend' in str(sys.argv):
+            process.mmapend = args.mmapend
+
+        if '--ckptsetting' in str(sys.argv):
+            process.ckptsetting = args.ckptsetting
+
         multiprocesses.append(process)
         idx += 1
 
@@ -195,6 +204,8 @@ if args.elastic_trace_en:
 # frequency.
 for cpu in system.cpu:
     cpu.clk_domain = system.cpu_clk_domain
+    if '--ckptinsts' in str(sys.argv):
+        cpu.ckptinsts = args.ckptinsts
 
 if ObjectList.is_kvm_cpu(CPUClass) or ObjectList.is_kvm_cpu(FutureClass):
     if buildEnv['TARGET_ISA'] == 'x86':

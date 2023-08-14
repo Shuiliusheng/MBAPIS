@@ -92,6 +92,8 @@ class SimpleExecContext : public ExecContext
                        "Number of instructions committed"),
               ADD_STAT(numOps, statistics::units::Count::get(),
                        "Number of ops (including micro ops) committed"),
+              ADD_STAT(numCmovInsts, statistics::units::Count::get(),
+                       "Number of cmov instructions executed"),
               ADD_STAT(numIntAluAccesses, statistics::units::Count::get(),
                        "Number of integer alu accesses"),
               ADD_STAT(numFpAluAccesses, statistics::units::Count::get(),
@@ -192,6 +194,8 @@ class SimpleExecContext : public ExecContext
         // Number of simulated instructions
         statistics::Scalar numInsts;
         statistics::Scalar numOps;
+        // Number of CMOV type insts
+        statistics::Scalar numCmovInsts;
 
         // Number of integer alu accesses
         statistics::Scalar numIntAluAccesses;

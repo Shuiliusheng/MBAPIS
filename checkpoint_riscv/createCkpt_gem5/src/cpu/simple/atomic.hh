@@ -46,6 +46,7 @@
 #include "mem/request.hh"
 #include "params/AtomicSimpleCPU.hh"
 #include "sim/probe/probe.hh"
+#include "sim/ckpt_collect.hh"
 
 namespace gem5
 {
@@ -58,6 +59,47 @@ class AtomicSimpleCPU : public BaseSimpleCPU
     virtual ~AtomicSimpleCPU();
 
     void init() override;
+
+    //RISCV_Ckpt_Support: some config setting
+    uint64_t benchinsts, takeSysNum;  //for readckpt_new.riscv execution
+    bool last_isBenchInst = false;
+    bool startlog = false;  //for recording whether need to record instruction information
+    set<Addr> preinsts;     //for find exit instruction
+    uint64_t instnums[10];  //for record ckpt instruction type information
+    void recordinst(StaticInstPtr inst) {
+      if(inst->isLoad()) {
+        instnums[0]++;
+      }
+      else if(inst->isStore()) {
+        instnums[1]++;
+      }
+      
+      if(inst->isAtomic()) {
+        instnums[2]++;
+      }
+      
+      if(inst->isControl()) {
+        instnums[3]++;
+      }
+      
+      if(inst->isCall()) {
+        instnums[4]++;
+      }
+      
+      if(inst->isReturn()) {
+        instnums[5]++;
+      }
+      
+      if(inst->isCondCtrl()) {
+        instnums[6]++;
+      }
+      if(inst->isUncondCtrl()) {
+        instnums[7]++;
+      }
+      if(inst->isIndirectCtrl()) {
+        instnums[8]++;
+      }
+    }
 
   protected:
     EventFunctionWrapper tickEvent;

@@ -37,6 +37,9 @@
 #include "base/trace.hh"
 #include "cpu/thread_context.hh"
 #include "sim/syscall_emul.hh"
+#include "debug/CreateCkpt.hh"
+#include <stdio.h>
+#include "sim/ckpt_collect.hh"
 
 namespace gem5
 {
@@ -87,6 +90,24 @@ EmuLinux::syscall(ThreadContext *tc)
     process->Process::syscall(tc);
 
     RegVal num = tc->readIntReg(RiscvISA::SyscallNumReg);
+    // if (GEM5_UNLIKELY(TRACING_ON && ::gem5::debug::CreateCkpt)) { 
+    if (needCreateCkpt) { 
+        RegVal a0 = tc->readIntReg(10);
+        RegVal a1 = tc->readIntReg(11);
+        RegVal a2 = tc->readIntReg(12);
+        RegVal a3 = tc->readIntReg(13);
+        RegVal a4 = tc->readIntReg(14);
+        vector<uint64_t> params;
+        params.push_back(a0);
+        params.push_back(a1);
+        params.push_back(a2);
+        params.push_back(a3);
+        params.push_back(a4);
+        //RISCV_Ckpt_Support: record syscall information
+        ckpt_add_sysenter(tc->pcState().pc(), num, params);
+        params.clear();
+    }
+
     if (dynamic_cast<RiscvProcess64 *>(process))
         syscallDescs64.get(num)->doSyscall(tc);
     else
@@ -104,6 +125,22 @@ unameFunc64(SyscallDesc *desc, ThreadContext *tc, VPtr<Linux::utsname> name)
     strcpy(name->release, process->release.c_str());
     strcpy(name->version, "#1 Mon Aug 18 11:32:15 EDT 2003");
     strcpy(name->machine, "riscv64");
+
+    Linux::utsname unametemp;
+    strcpy(unametemp.sysname, "Linux");
+    strcpy(unametemp.nodename,"sim.gem5.org");
+    strcpy(unametemp.release, process->release.c_str());
+    strcpy(unametemp.version, "#1 Mon Aug 18 11:32:15 EDT 2003");
+    strcpy(unametemp.machine, "riscv64");
+
+    //RISCV_Ckpt_Support: record syscall information
+    if (needCreateCkpt) {
+        unsigned outsize = sizeof(Linux::utsname); 
+        unsigned char *outdata = (unsigned char *)(&unametemp);
+        unsigned long long dstaddr = tc->readIntReg(10);
+        unsigned long long res = 0;
+        ckpt_add_sysexe(tc->pcState().pc(), res, dstaddr, outsize, outdata);
+    }
 
     return 0;
 }
@@ -183,7 +220,7 @@ SyscallDescTable<SEWorkload::SyscallABI> EmuLinux::syscallDescs64 = {
     { 56,   "openat", openatFunc<RiscvLinux64> },
     { 57,   "close", closeFunc },
     { 58,   "vhangup" },
-    { 59,   "pipe2" },
+    { 59,   "pipe2", pipe2Func},
     { 60,   "quotactl" },
     { 61,   "getdents64" },
     { 62,   "lseek", lseekFunc },

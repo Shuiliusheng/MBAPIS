@@ -31,6 +31,8 @@
 
 #include "base/types.hh"
 #include "sim/syscall_debug_macros.hh"
+#include "debug/CreateCkpt.hh"
+#include "sim/ckpt_collect.hh"
 
 namespace gem5
 {
@@ -50,6 +52,12 @@ SyscallDesc::doSyscall(ThreadContext *tc)
         DPRINTF_SYSCALL(Base, "No return value.\n", name());
     else
         DPRINTF_SYSCALL(Base, "Returned %d.\n", retval.encodedValue());
+
+    //RISCV_Ckpt_Support: record the syscall ret information 
+    if (needCreateCkpt) { 
+        RegVal num = tc->readIntReg(17);
+        ckpt_add_sysret(tc->pcState().pc(), dumper(name(), tc), !retval.suppressed(), retval.encodedValue());
+    }
 }
 
 } // namespace gem5
