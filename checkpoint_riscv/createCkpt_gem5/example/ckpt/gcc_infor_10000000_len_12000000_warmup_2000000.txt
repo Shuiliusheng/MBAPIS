@@ -1,0 +1,152 @@
+memory layout, brkpoint: 0x15ab000, stack_base: 0x74000000, mapend: 0x300a5000
+ckptinfo, startnum: 8000000, exitnum: 12239725, length: 10000000
+, warmup: 2000000, pc: 0x358dc0, npc: 0x358bea, exitpc: 0x201db0
+text range num: 43, mem range num: 27, first load num: 7169, syscallnum: 18
+
+
+-- integer register value: --
+reg 0: 0x0
+reg 1: 0x35904e
+reg 2: 0x73fff8c0
+reg 3: 0x4d29e0
+reg 4: 0x1400710
+reg 5: 0x0
+reg 6: 0x497000
+reg 7: 0x1
+reg 8: 0x7017
+reg 9: 0xffffffffffff0001
+reg 10: 0x0
+reg 11: 0x1fe0001100ff
+reg 12: 0x2c
+reg 13: 0x2c
+reg 14: 0x474ae6
+reg 15: 0x474ae6
+reg 16: 0x34
+reg 17: 0x2e
+reg 18: 0x4fb228
+reg 19: 0x1447a60
+reg 20: 0x0
+reg 21: 0x73fffa10
+reg 22: 0x73fff920
+reg 23: 0x73fff998
+reg 24: 0x4faf58
+reg 25: 0x0
+reg 26: 0x1
+reg 27: 0x496b3c
+reg 28: 0x3e
+reg 29: 0xf
+reg 30: 0x3ff
+reg 31: 0x0
+
+-- float register value: --
+reg 0: 0x0
+reg 1: 0x0
+reg 2: 0x0
+reg 3: 0x0
+reg 4: 0x0
+reg 5: 0x0
+reg 6: 0x0
+reg 7: 0x0
+reg 8: 0x0
+reg 9: 0x0
+reg 10: 0x0
+reg 11: 0x0
+reg 12: 0x0
+reg 13: 0x0
+reg 14: 0x0
+reg 15: 0x0
+reg 16: 0x0
+reg 17: 0x0
+reg 18: 0x0
+reg 19: 0x0
+reg 20: 0x0
+reg 21: 0x0
+reg 22: 0x0
+reg 23: 0x0
+reg 24: 0x0
+reg 25: 0x0
+reg 26: 0x0
+reg 27: 0x0
+reg 28: 0x0
+reg 29: 0x0
+reg 30: 0x0
+reg 31: 0x0
+
+-- text range information: 612 KB --
+text range 0: 0x200000, 88 KB
+text range 1: 0x218000, 40 KB
+text range 2: 0x223000, 48 KB
+text range 3: 0x236000, 4 KB
+text range 4: 0x256000, 4 KB
+text range 5: 0x266000, 4 KB
+text range 6: 0x26d000, 4 KB
+text range 7: 0x272000, 4 KB
+text range 8: 0x27b000, 36 KB
+text range 9: 0x285000, 4 KB
+text range 10: 0x28d000, 4 KB
+text range 11: 0x29a000, 4 KB
+text range 12: 0x2a1000, 36 KB
+text range 13: 0x2ab000, 4 KB
+text range 14: 0x2af000, 4 KB
+text range 15: 0x2b2000, 4 KB
+text range 16: 0x2b9000, 16 KB
+text range 17: 0x2c2000, 4 KB
+text range 18: 0x2fa000, 4 KB
+text range 19: 0x2fc000, 8 KB
+text range 20: 0x30e000, 4 KB
+text range 21: 0x311000, 8 KB
+text range 22: 0x31f000, 24 KB
+text range 23: 0x346000, 4 KB
+text range 24: 0x34c000, 8 KB
+text range 25: 0x351000, 4 KB
+text range 26: 0x356000, 16 KB
+text range 27: 0x367000, 4 KB
+text range 28: 0x380000, 4 KB
+text range 29: 0x396000, 4 KB
+text range 30: 0x399000, 4 KB
+text range 31: 0x39b000, 24 KB
+text range 32: 0x3a2000, 28 KB
+text range 33: 0x3af000, 12 KB
+text range 34: 0x3b4000, 20 KB
+text range 35: 0x3bc000, 16 KB
+text range 36: 0x3c8000, 8 KB
+text range 37: 0x3cb000, 4 KB
+text range 38: 0x3cf000, 8 KB
+text range 39: 0x3d2000, 68 KB
+text range 40: 0x3e4000, 8 KB
+text range 41: 0x3fb000, 4 KB
+text range 42: 0x3fe000, 4 KB
+
+-- mem range information: 2760 KB --
+mem range 0: 0x416000, 88 KB
+mem range 1: 0x42e000, 24 KB
+mem range 2: 0x436000, 8 KB
+mem range 3: 0x43e000, 16 KB
+mem range 4: 0x46a000, 16 KB
+mem range 5: 0x474000, 16 KB
+mem range 6: 0x47c000, 16 KB
+mem range 7: 0x482000, 16 KB
+mem range 8: 0x48a000, 8 KB
+mem range 9: 0x490000, 32 KB
+mem range 10: 0x49a000, 8 KB
+mem range 11: 0x49e000, 80 KB
+mem range 12: 0x4c2000, 8 KB
+mem range 13: 0x4c8000, 8 KB
+mem range 14: 0x4ce000, 184 KB
+mem range 15: 0x502000, 8 KB
+mem range 16: 0x580000, 8 KB
+mem range 17: 0x586000, 24 KB
+mem range 18: 0x1400000, 88 KB
+mem range 19: 0x1418000, 8 KB
+mem range 20: 0x141e000, 24 KB
+mem range 21: 0x1426000, 8 KB
+mem range 22: 0x142a000, 8 KB
+mem range 23: 0x143c000, 8 KB
+mem range 24: 0x1446000, 1368 KB
+mem range 25: 0x30000000, 664 KB
+mem range 26: 0x73ffe000, 16 KB
+
+--running instruction information --
+isLoad: 2699528, isStore: 1705701, isAtomic: 435
+isControl: 2106382, isCall: 472185, isReturn: 0
+isCondCtrl: 1454039, isUncondCtrl: 652343, isIndirectCtrl: 318892

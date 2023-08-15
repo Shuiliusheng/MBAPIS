@@ -1,4 +1,4 @@
 mmapend: 0x30000000
 stacktop: 0x74000000
 ckptprefix: ./ckpt/gcc
-ckptctrl: 100000000 100000000 20000000 2
+ckptctrl: 10000000 10000000 2000000 2

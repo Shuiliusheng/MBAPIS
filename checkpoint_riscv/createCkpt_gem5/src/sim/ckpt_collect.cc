@@ -30,7 +30,8 @@ void init_ckpt_settings(const char filename[])
   while(!feof(p)) {
     fgets(str, 300, p);
     if(strlen(str) < 1) break;
-    str[strlen(str)-1] = '\0';
+    if(str[strlen(str)-1] == '\n')
+      str[strlen(str)-1] = '\0';
 
     string temp(str);
     uint64_t idx = temp.find(":");
