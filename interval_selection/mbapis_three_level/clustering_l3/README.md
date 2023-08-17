@@ -1,0 +1,1 @@
+At present, we use the original Simpoint tool to complete the cluster analysis of the third layer of mbapis, and select representative program intervals from all tailored intervals.

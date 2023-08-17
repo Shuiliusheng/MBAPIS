@@ -1,0 +1,103 @@
+1. sample的结果: counter.log文件
+    - 生成csv文件
+    - 绘制若干事件的图像pdf
+
+2. simpoint的结果: bb文件
+    - 生成总体的simpoint文件：bench.simpoint bench.weight bench.total
+    - 误差分析：
+        - 计算simpoint的估计结果与整体结果（采样结果的累计）差异
+        - 可以将所有bench进行汇总 *
+    - 绘制图像：
+        - 绘制simpoint选择片段的weight图
+        - 绘制pcinfo的差异性图
+        - 绘制不同事件的误差图
+        - 绘制不同事件以及选择片段的图
+
+3. 选择符合指定特征的片段
+    - 选择依据：按照事件和top的比例选择（目前是俩事件，一个topdown，一个计数器）
+        - 根据指定事件和比例，获得所有符合条件的片段列表intervals.si
+        - 根据intervals.si获取对应的bbv文件，利用simpoint工具重新聚类，选择具有代表性的若干片段intervals.total
+        - intervals.total为最终选择的若干片段，以及相应权重
+    - 误差分析：
+        - 根据intervals.total和intervals.si计算simpoint得到估计值误差
+        - 随机从intervals.si中挑选若干片段（数量保持一致，权重均分），同样估计误差
+    - 绘制图像：
+        - 绘制simpoint选择片段的weight图
+        - 绘制pcinfo的差异性图
+        - 绘制不同事件的误差图
+        - 绘制不同事件以及选择片段的图
+    
+4. 对比不同处理器配置情况下，片段选择方案的误差
+    - 处理器配置：base bigbp bigcache
+    - 要比较的方案
+        - 所有片段中simpoint选择的片段
+        - 指定片段中simpoint选择的片段(基于base配置选择出的片段)
+        - 指定片段中随机选择的片段的
+    - 数据：
+        - 每个benchmark，共九种配置的结果
+            - 每一种配置：整体值 估计值 误差， 组合在一起，共27列数据
+            - 绘制图像, 每个配置一种事件差异的图
+
+
+
+5. checkpoint的运行结果: runlog文件
+    - 汇总并计算单个bench的所有checkpoint结果，并计算每个事件和采样事件之间的误差
+    - 汇总得到所有bench的误差统计
+
+6. 利用checkpoint完成片段估计整体的误差分析
+    - 整体simpoint和整体之间的差异性
+        - 利用simpoint.total文件，生成每个bench指定的片段的checkpoint文件
+            - 十亿预热，两亿运行，统计计数器的值
+        - 汇总，并计算单个片段和采样结果之间的误差
+        - 汇总，利用simpoint中的权重，计算得到整体估计值，计算误差
+    - 选择的片段中的simpoint和所有选择的片段之间的差异性
+        - 利用simpoint.total文件，生成每个bench指定的片段的checkpoint文件
+            - 十亿预热，两亿运行，统计计数器的值
+        - 汇总，并计算单个片段和采样结果之间的误差
+        - 汇总，利用simpoint中的权重，计算得到整体估计值，计算误差
+
+
+%simpoint对MPKI和DCache的一些误差估计, （也可以包含一些预估很准确的，astar这种）
+%gapbs mpki: 
+% - gtgrmat400000-200000的误差最大
+% - bc asia_osm 8%
+
+%spec2006 mpki:
+% gcc bzip2 dealII
+
+%spec2017 mpki: 
+% xalancbmk gcc_r() namd_r（MPKI太小了）
+
+%dcache
+%gapbs: gtgrmat400000-200000, asia_osm, ptgramat4000-20000(部分误差较大)
+
+%spec06: calculix gcc(行为变化比较多，适合选择)
+
+%spec17: xalancbmk, leela_r, gcc_r
+
+
+mpki
+bc_o2_gtgrmat_n400000_m20000000_com_misp_MPKI_0.25_l2_branch_mispredicts_0.25
+cc_o2_gtgrmat_n400000_m20000000_com_misp_MPKI_0.25_l2_branch_mispredicts_0.25
+pr_o2_gtgrmat_n400000_m20000000_com_misp_MPKI_0.2_l2_branch_mispredicts_0.2
+tc_o2_gtgrmat_n400000_m20000000_com_misp_MPKI_0.25_l2_branch_mispredicts_0.25
+
+xalancbmk_r_com_misp_MPKI_0.3_l2_branch_mispredicts_0.3
+gcc_r_com_misp_MPKI_0.25_l2_branch_mispredicts_0.25 (有一部分是simpoint没有选择的高MPKI区域)
+
+bzip2_com_misp_MPKI_0.25_l2_branch_mispredicts_0.25
+
+dcache
+pr_o2_gtgrmat_n400000_m20000000_dcache_to_L2_0.25_l2_memory_bound_0.25
+
+gcc_r_l2_memory_bound_0.25_dcache_to_L2_0.25 (有一部分较为明显的没有选)
+xalancbmk_r_l2_memory_bound_0.3_dcache_to_L2_0.3
+gcc_r_l2_memory_bound_0.3_dcache_to_L2_0.3
+
+gcc_l2_memory_bound_0.3_dcache_to_L2_0.3
+calculix_l2_memory_bound_0.3_dcache_to_L2_0.3
+
+
+
+two layer result
+gcc memory bound
